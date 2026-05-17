@@ -535,6 +535,7 @@ void randoCreateYamlConfigMenu() {
     randoCreateBoolPropOption(&yaml_config_menu, "intro_checks", "Intro Checks:", false);
     randoCreateRadioOption(&yaml_config_menu, "shuffle_minigames", "Shuffle Minigames:", shuffle_minigames_options, ARRAY_COUNT(shuffle_minigames_options), 1);
     randoCreateRadioOption(&yaml_config_menu, "shuffle_treasure_chest_game", "Treasure Chest Game Shuffle:", treasure_chest_game_shuffle_options, ARRAY_COUNT(treasure_chest_game_shuffle_options), 1);
+    randoCreateBoolPropOption(&yaml_config_menu, "shuffle_lottery", "Shuffle Lottery:", false);
     randoCreateBoolPropOption(&yaml_config_menu, "start_with_consumables", "Start With Consumables:", true);
     randoCreateBoolPropOption(&yaml_config_menu, "permanent_chateau_romani", "Permanent Chateau Romani:", true);
     randoCreateBoolPropOption(&yaml_config_menu, "start_with_inverted_time", "Start With Inverted Time:", true);

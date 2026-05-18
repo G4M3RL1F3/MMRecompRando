@@ -419,6 +419,12 @@ static EnumOptionValue treasure_chest_game_shuffle_options[] = {
     { "everything", NULL },
 };
 
+static EnumOptionValue rando_shuffle_picture_rewards_options[] = {
+    { "disabled", NULL },
+    { "winning_only", NULL },
+    { "all_pictures", NULL }
+};
+
 static EnumOptionValue rando_damage_multiplier_options[] = {
     { "half", NULL },
     { "normal", NULL },
@@ -537,6 +543,7 @@ void randoCreateYamlConfigMenu() {
     randoCreateRadioOption(&yaml_config_menu, "shuffle_treasure_chest_game", "Treasure Chest Game Shuffle:", treasure_chest_game_shuffle_options, ARRAY_COUNT(treasure_chest_game_shuffle_options), 1);
     randoCreateIntSliderOption(&yaml_config_menu, "shuffle_beaver_races", "Shuffle Beaver Races:", 0, 2, 1, 0);
     randoCreateBoolPropOption(&yaml_config_menu, "shuffle_lottery", "Shuffle Lottery:", false);
+    randoCreateRadioOption(&yaml_config_menu, "shuffle_picture_rewards", "Shuffle Picture Rewards:", rando_shuffle_picture_rewards_options, ARRAY_COUNT(rando_shuffle_picture_rewards_options), 1);
     randoCreateBoolPropOption(&yaml_config_menu, "start_with_consumables", "Start With Consumables:", true);
     randoCreateBoolPropOption(&yaml_config_menu, "permanent_chateau_romani", "Permanent Chateau Romani:", true);
     randoCreateBoolPropOption(&yaml_config_menu, "start_with_inverted_time", "Start With Inverted Time:", true);

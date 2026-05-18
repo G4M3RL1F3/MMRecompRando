@@ -1452,7 +1452,10 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
                             (item == ITEM_HYLIAN_LOACH)) ||
                         (((item >= ITEM_POTION_RED) && (item <= ITEM_OBABA_DRINK) && (item != ITEM_CHATEAU)) ||
                             (item == ITEM_MILK) || (item == ITEM_CHATEAU_2) || (item == ITEM_GOLD_DUST_2) || (item == ITEM_HYLIAN_LOACH_2) ||
-                            (item == ITEM_SEAHORSE_CAUGHT))) {
+                            (item == ITEM_SEAHORSE_CAUGHT)) ||
+                        (actor->id == ACTOR_ID_SWAMP_GUIDE && (getItemId == GI_HEART_PIECE && rando_get_slotdata_u32("shuffle_picture_rewards") == 0) ||
+                        ((getItemId == GI_RUPEE_RED || getItemId == GI_RUPEE_BLUE) && rando_get_slotdata_u32("shuffle_picture_rewards") != 2)
+                    )) {
                     } else {
                         itemWorkaround = true;
                         itemShuffled = true;
@@ -1460,15 +1463,27 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
                     }
                     if (getItemId == GI_HEART_PIECE) {
                         recomp_printf("Actor HP: 0x%06X\n", LOCATION_QUEST_HEART_PIECE);
-                        itemWorkaround = true;
-                        itemShuffled = true;
-                        trueGI = rando_get_item_id(LOCATION_QUEST_HEART_PIECE);
-                        if (LOCATION_QUEST_HEART_PIECE == LOCATION_GRANNY_STORY_1 && rando_location_is_checked(LOCATION_GRANNY_STORY_1)) {
-                            // stupid gramma double heart piece
-                            location_to_send = LOCATION_GRANNY_STORY_2;
-                            trueGI = rando_get_item_id(LOCATION_GRANNY_STORY_2);
+                        if (actor->id == ACTOR_ID_SWAMP_GUIDE) {
+                            if (rando_get_slotdata_u32("shuffle_picture_rewards") == 0) {
+                                itemWorkaround = false;
+                                itemShuffled = false;
+                                trueGI = getItemId;
+                                SET_WEEKEVENTREG(WEEKEVENTREG_87_08);
+                            } else {
+                                location_to_send = LOCATION_SWAMP_GUIDE_WINNER;
+                                trueGI = rando_get_item_id(LOCATION_SWAMP_GUIDE_WINNER);
+                            }
                         } else {
-                            location_to_send = LOCATION_QUEST_HEART_PIECE;
+                            itemWorkaround = true;
+                            itemShuffled = true;
+                            trueGI = rando_get_item_id(LOCATION_QUEST_HEART_PIECE);
+                            if (LOCATION_QUEST_HEART_PIECE == LOCATION_GRANNY_STORY_1 && rando_location_is_checked(LOCATION_GRANNY_STORY_1)) {
+                                // stupid gramma double heart piece
+                                location_to_send = LOCATION_GRANNY_STORY_2;
+                                trueGI = rando_get_item_id(LOCATION_GRANNY_STORY_2);
+                            } else {
+                                location_to_send = LOCATION_QUEST_HEART_PIECE;
+                            }
                         }
                     } else if (getItemId >= GI_REMAINS_ODOLWA && getItemId <= GI_REMAINS_TWINMOLD) {
                         itemWorkaround = true;
@@ -1507,14 +1522,31 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
                         // Honey and Darling Any Day
                         location_to_send = LOCATION_HONEY_AND_DARLING_ANY_DAY;
                         trueGI = rando_get_item_id(LOCATION_HONEY_AND_DARLING_ANY_DAY);
+                    //} else if (getItemId == GI_HEART_PIECE && actor->id == ACTOR_ID_SWAMP_GUIDE) {
+                    //    // Swamp Pictograph Contest Winning Picture
+                    //    if (rando_get_slotdata_u32("shuffle_picture_rewards") == 0) {
+                    //        itemShuffled = false;
+                    //        getItemId = GI_RUPEE_SILVER;
+                    //    } else {
+                    //        location_to_send = LOCATION_SWAMP_GUIDE_WINNER;
+                    //        trueGI = rando_get_item_id(LOCATION_SWAMP_GUIDE_WINNER);
+                    //    }
                     } else if (getItemId == GI_RUPEE_RED && actor->id == ACTOR_ID_SWAMP_GUIDE) { // && !rando_location_is_checked(LOCATION_SWAMP_GUIDE_GOOD)) {
                         // Swamp Pictograph Contest Good Picture
-                        location_to_send = LOCATION_SWAMP_GUIDE_GOOD;
-                        trueGI = rando_get_item_id(LOCATION_SWAMP_GUIDE_GOOD);
+                        if (rando_get_slotdata_u32("shuffle_picture_rewards") != 2) {
+                            itemShuffled = false;
+                        } else {
+                            location_to_send = LOCATION_SWAMP_GUIDE_GOOD;
+                            trueGI = rando_get_item_id(LOCATION_SWAMP_GUIDE_GOOD);
+                        }
                     } else if (getItemId == GI_RUPEE_BLUE && actor->id == ACTOR_ID_SWAMP_GUIDE) { // && !rando_location_is_checked(LOCATION_SWAMP_GUIDE_OKAY)) {
                         // Swamp Pictograph Contest Okay Picture
-                        location_to_send = LOCATION_SWAMP_GUIDE_OKAY;
-                        trueGI = rando_get_item_id(LOCATION_SWAMP_GUIDE_OKAY);
+                        if (rando_get_slotdata_u32("shuffle_picture_rewards") != 2) {
+                            itemShuffled = false;
+                        } else {
+                            location_to_send = LOCATION_SWAMP_GUIDE_OKAY;
+                            trueGI = rando_get_item_id(LOCATION_SWAMP_GUIDE_OKAY);
+                        }
                     } else if (getItemId == GI_POWDER_KEG && ((actor->id == ACTOR_ID_MEDIGORON && rando_location_is_checked(GI_POWDER_KEG)) || actor->id == ACTOR_ID_BOMBGORON)) {
                         // Goron Village Medigoron Sale + Bomb Shop Goron Rebuy
                         itemWorkaround = false;
@@ -1528,7 +1560,12 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
                     if (itemShuffled) {
                         player->getItemId = GI_DEED_LAND;
                     } else {
-                        player->getItemId = getItemId;
+                        if (getItemId == GI_HEART_PIECE && actor->id == ACTOR_ID_SWAMP_GUIDE && rando_get_slotdata_u32("shuffle_picture_rewards") == 0)
+                        {
+                            player->getItemId = GI_RUPEE_SILVER;
+                        } else {
+                            player->getItemId = getItemId;
+                        }
                     }
                     player->interactRangeActor = actor;
                     player->getItemDirection = absYawDiff;

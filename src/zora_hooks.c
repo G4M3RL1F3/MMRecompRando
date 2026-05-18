@@ -120,7 +120,10 @@ RECOMP_PATCH void func_80B9854C(EnZot* this, PlayState* play) {
         this->actor.flags |= ACTOR_FLAG_10000;
         Actor_OfferTalkExchange(&this->actor, play, 1000.0f, 1000.0f, PLAYER_IA_MINUS1);
     } else {
-        // Actor_OfferGetItem(&this->actor, play, this->unk_2D4, 10000.0f, 50.0f);
-        Actor_OfferGetItemHook(&this->actor, play, rando_get_item_id(LOCATION_ZORA_PICTOGRAPH), LOCATION_ZORA_PICTOGRAPH, 10000.0f, 50.0f, true, true);
+        if (rando_get_slotdata_u32("shuffle_picture_rewards") != 2) {
+            Actor_OfferGetItem(&this->actor, play, this->unk_2D4, 10000.0f, 50.0f);
+        } else {
+            Actor_OfferGetItemHook(&this->actor, play, rando_get_item_id(LOCATION_ZORA_PICTOGRAPH), LOCATION_ZORA_PICTOGRAPH, 10000.0f, 50.0f, true, true);
+        }
     }
 }

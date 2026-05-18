@@ -1416,6 +1416,7 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
     Player* player = GET_PLAYER(play);
     u32 i;
     u8 item;
+    recomp_printf("Actor's getItemId: 0x%06X\n", getItemId);
 
     if (!(player->stateFlags1 &
           (PLAYER_STATE1_80 | PLAYER_STATE1_1000 | PLAYER_STATE1_2000 | PLAYER_STATE1_4000 | PLAYER_STATE1_40000 |
@@ -1465,9 +1466,9 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
                         recomp_printf("Actor HP: 0x%06X\n", LOCATION_QUEST_HEART_PIECE);
                         if (actor->id == ACTOR_ID_SWAMP_GUIDE) {
                             if (rando_get_slotdata_u32("shuffle_picture_rewards") == 0) {
-                                itemWorkaround = false;
+                                itemWorkaround = true;
                                 itemShuffled = false;
-                                trueGI = getItemId;
+                                trueGI = GI_RUPEE_SILVER;
                                 SET_WEEKEVENTREG(WEEKEVENTREG_87_08);
                             } else {
                                 location_to_send = LOCATION_SWAMP_GUIDE_WINNER;
@@ -1522,15 +1523,17 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
                         // Honey and Darling Any Day
                         location_to_send = LOCATION_HONEY_AND_DARLING_ANY_DAY;
                         trueGI = rando_get_item_id(LOCATION_HONEY_AND_DARLING_ANY_DAY);
-                    //} else if (getItemId == GI_HEART_PIECE && actor->id == ACTOR_ID_SWAMP_GUIDE) {
-                    //    // Swamp Pictograph Contest Winning Picture
-                    //    if (rando_get_slotdata_u32("shuffle_picture_rewards") == 0) {
-                    //        itemShuffled = false;
-                    //        getItemId = GI_RUPEE_SILVER;
-                    //    } else {
-                    //        location_to_send = LOCATION_SWAMP_GUIDE_WINNER;
-                    //        trueGI = rando_get_item_id(LOCATION_SWAMP_GUIDE_WINNER);
-                    //    }
+                    } else if (getItemId == GI_RUPEE_SILVER && actor->id == ACTOR_ID_SWAMP_GUIDE) {
+                        // Swamp Pictograph Contest Winning Picture
+                        if (rando_get_slotdata_u32("shuffle_picture_rewards") == 0) {
+                            recomp_printf("The game detected that picture rewards shuffle is disabled.");
+                            itemShuffled = false;
+                            trueGI = GI_RUPEE_SILVER;
+                        } else {
+                            recomp_printf("The game detected that picture rewards shuffle is NOT disabled.");
+                            location_to_send = LOCATION_SWAMP_GUIDE_WINNER;
+                            trueGI = rando_get_item_id(LOCATION_SWAMP_GUIDE_WINNER);
+                        }
                     } else if (getItemId == GI_RUPEE_RED && actor->id == ACTOR_ID_SWAMP_GUIDE) { // && !rando_location_is_checked(LOCATION_SWAMP_GUIDE_GOOD)) {
                         // Swamp Pictograph Contest Good Picture
                         if (rando_get_slotdata_u32("shuffle_picture_rewards") != 2) {
@@ -1560,12 +1563,7 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
                     if (itemShuffled) {
                         player->getItemId = GI_DEED_LAND;
                     } else {
-                        if (getItemId == GI_HEART_PIECE && actor->id == ACTOR_ID_SWAMP_GUIDE && rando_get_slotdata_u32("shuffle_picture_rewards") == 0)
-                        {
-                            player->getItemId = GI_RUPEE_SILVER;
-                        } else {
-                            player->getItemId = getItemId;
-                        }
+                        player->getItemId = getItemId;
                     }
                     player->interactRangeActor = actor;
                     player->getItemDirection = absYawDiff;

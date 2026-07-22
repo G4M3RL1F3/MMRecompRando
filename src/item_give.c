@@ -1412,6 +1412,12 @@ RECOMP_PATCH s32 Player_ActionChange_2(Player* this, PlayState* play) {
 
 extern bool rChecked[4];
 
+/*
+ * For some reason, the game tries to send the Tourist Center winning picture check twice. It sends the randomized item
+ * properly the first time, but the second time, it either displays a grey AP item or a heart piece (vanilla reward).
+ * This buffer is there to make the game behave as if the second send acts as the first, mainly to display the
+ * randomized item.
+ */
 s16 swampWinningRewardBuffer = false;
 
 RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId getItemId, f32 xzRange, f32 yRange) {

@@ -85,7 +85,7 @@ RECOMP_PATCH void func_809639D0(EnFu* this, PlayState* play) {
     switch (CURRENT_DAY) {
         case 1:
             if (GET_PLAYER_FORM == PLAYER_FORM_HUMAN) {
-                if (!INV_HAS(ITEM_BOMBCHU) && CUR_UPG_VALUE(UPG_BOMB_BAG) == 0) {
+                if (!INV_HAS(ITEM_BOMBCHU)) {
                     Message_StartTextbox(play, 0x2853, &this->actor);
                     this->unk_552 = 0x2853;
                 } else if (CHECK_WEEKEVENTREG(WEEKEVENTREG_22_10)) {

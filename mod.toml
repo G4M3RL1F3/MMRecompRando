@@ -54,7 +54,6 @@ native_libraries = [
                                     "rando_is_magic_trap",
                                     "rando_get_camc_enabled",
                                     "rando_get_start_with_consumables_enabled",
-                                    "rando_get_permanent_chateau_romani_enabled",
                                     "rando_get_start_with_inverted_time_enabled",
                                     "rando_get_receive_filled_wallets_enabled",
                                     "rando_get_remains_allow_boss_warps_enabled",

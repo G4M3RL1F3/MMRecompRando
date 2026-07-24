@@ -7,7 +7,6 @@
 
 bool saveOpened = false;
 
-RECOMP_IMPORT(".", bool rando_get_permanent_chateau_romani_enabled());
 RECOMP_IMPORT(".", bool rando_get_start_with_consumables_enabled());
 RECOMP_IMPORT(".", bool rando_get_start_with_inverted_time_enabled());
 
@@ -110,7 +109,7 @@ void Sram_SetInitialWeekEvents(void) {
     }
 
     // restore chateau romani state after cycle reset
-    if (drankChateau && rando_get_permanent_chateau_romani_enabled()) {
+    if ((drankChateau && rando_get_slotdata_u32("infinite_magic_behavior") == 1) || (rando_get_slotdata_u32("infinite_magic_behavior") == 2 && rando_has_item_async(AP_ITEM_ID_MAGIC) >= 3)) {
         SET_WEEKEVENTREG(WEEKEVENTREG_DRANK_CHATEAU_ROMANI);
         drankChateau = false;
     }

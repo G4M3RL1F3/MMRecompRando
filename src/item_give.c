@@ -1999,16 +1999,18 @@ u8 randoItemGive(u32 gi) {
 
         case 0x020000:
             switch (gi & 0xFF) {
-                case 0x00:
-                    if (!gSaveContext.save.saveInfo.playerData.isMagicAcquired) {
+                case 0x00:if (gSaveContext.save.saveInfo.playerData.isMagicAcquired == false) {
                         gSaveContext.save.saveInfo.playerData.isMagicAcquired = true;
                         gSaveContext.magicFillTarget = MAGIC_NORMAL_METER;
                         gSaveContext.save.saveInfo.playerData.magic = MAGIC_NORMAL_METER;
-                    } else {
+                    } else if (gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired == false) {
                         gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired = true;
                         gSaveContext.magicFillTarget = MAGIC_DOUBLE_METER;
                         gSaveContext.save.saveInfo.playerData.magicLevel = 0;
                         gSaveContext.save.saveInfo.playerData.magic = MAGIC_DOUBLE_METER;
+                    } else if (gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired == true) {
+                        SET_WEEKEVENTREG(WEEKEVENTREG_DRANK_CHATEAU_ROMANI);
+                        Magic_Add(play, MAGIC_FILL_TO_CAPACITY);
                     }
                     break;
                 case 0x01:

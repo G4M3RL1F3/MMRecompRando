@@ -5,6 +5,8 @@
 #include "apcommon.h"
 #include "yaml_generation.h"
 
+RECOMP_IMPORT("*", int recomp_printf(const char* fmt, ...));
+
 #define LOCATION_INVENTORY_SWORD 0x000037
 #define LOCATION_INVENTORY_SHIELD 0x000032
 
@@ -423,6 +425,12 @@ void update_rando(PlayState* play) {
 
             if (new_magic_level >= 2 && !gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired) {
                 randoItemGive(AP_ITEM_ID_MAGIC);
+            }
+
+            if (new_magic_level >= 3) {
+                randoItemGive(AP_ITEM_ID_MAGIC);
+                SET_WEEKEVENTREG(WEEKEVENTREG_DRANK_CHATEAU_ROMANI);
+                Magic_Add(play, MAGIC_FILL_TO_CAPACITY);
             }
 
             if (!rando_is_magic_trap()) {

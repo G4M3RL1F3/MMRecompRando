@@ -133,7 +133,7 @@ RECOMP_PATCH void Message_OpenText(PlayState* play, u16 textId) {
 
     // recomp_printf("text id: 0x%04X\n", textId);
 
-    if (textId == 0x52 && rando_skulltulas_enabled()) {
+    if (textId == 0x52 && rando_get_slotdata_u32("skullsanity") != 2) {
         textId = 0x75;
     }
 
@@ -463,7 +463,7 @@ RECOMP_PATCH void Message_OpenText(PlayState* play, u16 textId) {
         font->msgBuf.schar[0] = 0x00;
     }
     
-    if ((textId & 0xFF00) == 0x3600 || (textId & 0xFF00) == 0x3700 || (textId == 0x0880 && rando_shopsanity_enabled() && !rando_location_is_checked_async(0x090002))) {
+    if ((textId & 0xFF00) == 0x3600 || (textId & 0xFF00) == 0x3700 || (textId == 0x0880 && rando_get_slotdata_u32("shopsanity") && !rando_location_is_checked_async(0x090002))) {
         msg = shop_msg;
         font->msgBuf.schar[0] = 0x06;
         font->msgBuf.schar[1] = 0x30;
@@ -482,7 +482,7 @@ RECOMP_PATCH void Message_OpenText(PlayState* play, u16 textId) {
         u8 count_str[128] = "\x11This is your \xbf";
         u8 count_done_str[128] = "\x11You've found all of them!\xbf";
         u8* count_msg = count_str;
-        u8 swamp_token_count = ((rando_skulltulas_enabled()) ? rando_has_item(GI_TRUE_SKULL_TOKEN) : Inventory_GetSkullTokenCount(0x27));
+        u8 swamp_token_count = ((rando_get_slotdata_u32("skullsanity") != 2) ? rando_has_item(GI_TRUE_SKULL_TOKEN) : Inventory_GetSkullTokenCount(0x27));
         if (swamp_token_count >= 30) {
             count_msg = count_done_str;
         }
@@ -523,7 +523,7 @@ RECOMP_PATCH void Message_OpenText(PlayState* play, u16 textId) {
         u8 count_str[128] = "\x11This is your \xbf";
         u8 count_done_str[128] = "\x11You've found all of them!\xbf";
         u8* count_msg = count_str;
-        u8 ocean_token_count = ((rando_skulltulas_enabled()) ? rando_has_item(GI_OCEAN_SKULL_TOKEN) : Inventory_GetSkullTokenCount(0x28));
+        u8 ocean_token_count = ((rando_get_slotdata_u32("skullsanity") != 2) ? rando_has_item(GI_OCEAN_SKULL_TOKEN) : Inventory_GetSkullTokenCount(0x28));
         if (ocean_token_count >= 30) {
             count_msg = count_done_str;
         }

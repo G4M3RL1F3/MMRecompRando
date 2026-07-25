@@ -18,9 +18,6 @@ RECOMP_IMPORT("*", int recomp_set_no_bow_epona_fix(bool new_val));
 RECOMP_IMPORT("*", int recomp_set_allow_no_ocarina_tf(bool new_val));
 RECOMP_IMPORT("*", int recomp_set_h_and_d_no_sword_fix(bool new_val));
 
-RECOMP_IMPORT(".", int rando_get_starting_heart_locations());
-RECOMP_IMPORT(".", int rando_get_tunic_color());
-
 RECOMP_IMPORT("mm_recomp_better_double_sot", void dsot_set_skip_dsot_cutscene(bool new_val));
 
 RECOMP_IMPORT("mm_recomp_colors", void colors_set_human_tunic(u8 r, u8 g, u8 b));
@@ -247,6 +244,14 @@ u32 old_items_size;
 bool waiting_death_link = false;
 bool sending_death_link = false;
 
+s16 rando_damage_multiplier() {
+    u32 multiplier_option = rando_get_slotdata_u32("damage_multiplier");
+    if (multiplier_option == 4) {
+        return 0xF;
+    }
+    return multiplier_option;
+}
+
 /**
  * @return false if player is out of health
  */
@@ -283,7 +288,7 @@ RECOMP_PATCH s32 Health_ChangeBy(PlayState* play, s16 healthChange) {
             rando_send_death_link();
         }
 
-        if (rando_death_behavior() == 3) {
+        if (rando_get_slotdata_u32("death_behavior") == 3) {
             Interface_StartMoonCrash(play);
         }
 
@@ -324,7 +329,7 @@ s32 Health_ChangeBy_NoSound(PlayState* play, s16 healthChange) {
             rando_send_death_link();
         }
 
-        if (rando_death_behavior() == 3) {
+        if (rando_get_slotdata_u32("death_behavior") == 3) {
             Interface_StartMoonCrash(play);
         }
 
@@ -433,7 +438,7 @@ void update_rando(PlayState* play) {
                 Magic_Add(play, MAGIC_FILL_TO_CAPACITY);
             }
 
-            if (!rando_is_magic_trap()) {
+            if (!rando_get_slotdata_u32("magic_is_a_trap")) {
                 if (new_magic_level < 1) {
                     gSaveContext.save.saveInfo.playerData.magic = 0;
                 }
@@ -560,7 +565,7 @@ void update_rando(PlayState* play) {
             rando_send_location(LOCATION_INVENTORY_SWORD);
             rando_send_location(LOCATION_INVENTORY_SHIELD);
 
-            for (int i = 0; i < rando_get_starting_heart_locations(); ++i)
+            for (int i = 0; i < rando_get_slotdata_u32("starting_heart_locations"); ++i)
             {
                 rando_send_location(0x0D0000 | i);
             }
@@ -587,7 +592,7 @@ void update_rando(PlayState* play) {
 
         if (play->pauseCtx.state == 0 && rando_get_death_link_enabled() && rando_get_death_link_pending()) {
             Play_KillPlayer();
-            if (rando_death_behavior() == 3) {
+            if (rando_get_slotdata_u32("death_behavior") == 3) {
                 Interface_StartMoonCrash(play);
             }
             rando_reset_death_link_pending();

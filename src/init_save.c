@@ -7,9 +7,6 @@
 
 bool saveOpened = false;
 
-RECOMP_IMPORT(".", bool rando_get_start_with_consumables_enabled());
-RECOMP_IMPORT(".", bool rando_get_start_with_inverted_time_enabled());
-
 RECOMP_CALLBACK("*", recomp_on_load_save)
 void rando_on_load_save(FileSelectState* fileSelect, SramContext* sramCtx) {
     saveOpened = true;
@@ -125,7 +122,7 @@ RECOMP_PATCH void Sram_InitNewSave(void) {
 
     gSaveContext.save.hasTatl = true;
 
-    if (rando_get_start_with_consumables_enabled()) {
+    if (rando_get_slotdata_u32("start_with_consumables")) {
         // start with basic consumables
         gSaveContext.save.saveInfo.playerData.rupees = gUpgradeCapacities[UPG_WALLET][0];
         gSaveContext.save.saveInfo.inventory.items[SLOT_DEKU_STICK] = ITEM_DEKU_STICK;
@@ -134,7 +131,7 @@ RECOMP_PATCH void Sram_InitNewSave(void) {
         gSaveContext.save.saveInfo.inventory.ammo[SLOT_DEKU_NUT] = 20;
     }
 
-    if (rando_get_start_with_inverted_time_enabled()) {
+    if (rando_get_slotdata_u32("start_with_inverted_time")) {
         gSaveContext.save.timeSpeedOffset = -2;
     }
 

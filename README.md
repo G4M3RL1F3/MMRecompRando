@@ -19,11 +19,10 @@ In order to be able to play the randomizer, you'll first need the following:
 1. Download the mod: [MMRecompRando.zip](https://github.com/RecompRando/MMRecompRando/releases/latest);
 2. Launch `Zelda 64: Recompiled`;
 3. Install the mod using one of the following methods:
+    1. Click on `Mods` to open the mod menu, click `Install Mods`, then select `MMRecompRando.zip`;
+    2. Click and drag the `MMRecompRando.zip` file on top of the `Zelda 64: Recompiled` window.
 > [!IMPORTANT]
 > Do not unzip the `MMRecompRando.zip` file.
-
-    a. Click on `Mods` to open the mod menu, click `Install Mods`, then select `MMRecompRando.zip`;
-    b. Click and drag the `MMRecompRando.zip` file on top of the `Zelda 64: Recompiled` window.
 
 ### Optional Setup
 - [Thunderstore](https://thunderstore.io/c/zelda-64-recompiled/) to download additional mods or texture packs;
@@ -45,13 +44,13 @@ Every player wishing to play Majora's Mask: Recompiled Randomizer requires a YAM
 3. Move the `mm_recomp.apworld` file in `Archipelago\custom_worlds`;
 4. Launch the Archipelago launcher;
 5. Follow one of these two steps:
-  a. Search for and click `Generate Template Options`. This will open a window with YAMLs of every world installed (if not, they can be found in `Archipelago\Players\Templates`). Search for and open `Majora's Mask Recompiled.yaml` and edit your options as desired with the use of a text editor, such as Notepad++;
-  b. Search for and click `Options Creator` and edit your options. Once it's done, click the `Export Options` and save it somewhere.
+    1. Search for and click `Generate Template Options`. This will open a window with YAMLs of every world installed (if not, they can be found in `Archipelago\Players\Templates`). Search for and open `Majora's Mask Recompiled.yaml` and edit your options as desired with the use of a text editor, such as Notepad++;
+    2. Search for and click `Options Creator` and edit your options. Once it's done, click the `Export Options` and save it somewhere.
 
 #### Seed Creation
 Only the host needs to follow the following steps in order to create a seed:
 1. Collect each player's YAML files and move them all to `Archipelago\Players`;
-  - If there are players playing other games, make sure to collect the corresponding APWorlds as well and move them to `Archipelago\custom_worlds`.
+    - If there are players playing other games, make sure to collect the corresponding APWorlds as well and move them to `Archipelago\custom_worlds`.
 2. Launch the Archipelago launcher;
 3. Search for and click `Generate`. If the generation was successful, the output `.zip` file is in `Archipelago\output`;
 4. Go to the [Archipelago](https://archipelago.gg/) website, click on `Get Started` → `Host Game`, then upload the `.zip` file you generated in the previous step.

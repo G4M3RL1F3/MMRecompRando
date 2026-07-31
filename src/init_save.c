@@ -5,6 +5,8 @@
 
 #include "apcommon.h"
 
+#define LOCATION_BEAVER_BOTTLE 0x09018D
+
 bool saveOpened = false;
 
 RECOMP_CALLBACK("*", recomp_on_load_save)
@@ -92,7 +94,9 @@ void Sram_SetInitialWeekEvents(void) {
     SET_WEEKEVENTREG(WEEKEVENTREG_82_02);
     
     // skip little brother beaver
-    SET_WEEKEVENTREG(WEEKEVENTREG_24_04);
+    if (rando_location_is_checked(LOCATION_BEAVER_BOTTLE)) {
+        SET_WEEKEVENTREG(WEEKEVENTREG_24_04);
+    }
 
     // skip secret shrine entrance guy text
     SET_WEEKEVENTREG(WEEKEVENTREG_76_80);

@@ -780,3 +780,9 @@ RECOMP_PATCH void func_80A97AB4(EnAz* this, PlayState* play) {
             break;
     }
 }
+
+RECOMP_HOOK_RETURN ("func_80A94B98") void beaver_race_finish() {
+    if (!CHECK_WEEKEVENTREG(WEEKEVENTREG_24_04)) {
+        SET_WEEKEVENTREG(WEEKEVENTREG_24_04);
+    }
+}

@@ -1460,10 +1460,10 @@ RECOMP_PATCH s32 Actor_OfferGetItem(Actor* actor, PlayState* play, GetItemId get
                         (((item >= ITEM_POTION_RED) && (item <= ITEM_OBABA_DRINK) && (item != ITEM_CHATEAU)) ||
                             (item == ITEM_MILK) || (item == ITEM_CHATEAU_2) || (item == ITEM_GOLD_DUST_2) || (item == ITEM_HYLIAN_LOACH_2) ||
                             (item == ITEM_SEAHORSE_CAUGHT)) ||
-                        ((actor->id == ACTOR_ID_SWAMP_GUIDE) && ((getItemId == GI_HEART_PIECE) &&
+                        ((actor->id == ACTOR_ID_SWAMP_GUIDE) && (((getItemId == GI_HEART_PIECE) &&
                             ((rando_get_slotdata_u32("shuffle_picture_rewards") == 0) || ((rando_get_slotdata_u32("shuffle_picture_rewards") != 0) && (rando_location_is_checked(LOCATION_SWAMP_GUIDE_WINNER))))) ||
-                            (((getItemId == GI_RUPEE_RED) || (getItemId == GI_RUPEE_BLUE)) && (rando_get_slotdata_u32("shuffle_picture_rewards") != 2))
-                    )) {
+                            (((getItemId == GI_RUPEE_RED) || (getItemId == GI_RUPEE_BLUE)) && (rando_get_slotdata_u32("shuffle_picture_rewards") != 2))))
+                    ) {
                     } else {
                         itemWorkaround = true;
                         itemShuffled = true;

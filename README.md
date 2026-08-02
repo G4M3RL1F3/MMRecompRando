@@ -63,22 +63,6 @@ Only the host needs to follow the following steps in order to create a seed:
 4. Click `Connect`.
 At this point, you are ready to play the randomizer.
 
-## FAQ
-
-### I launched this mod and my save is gone? Did rando delete my save?
-
-Don't worry, your vanilla saves are intact. When playing this mod, a per-session savefile will be created. Your normal save file will not be touched.
-
-### I got a trade item that occupies the same slot of another in the inventory. Is it just gone?
-
-Move your cursor to that slot and press the `L` or `A` button, however they're bound on your controller/keyboard. It will cycle through all available trade items in that slot.
-
-### I opened a chest/got a check and it always shows a grey Archipelago item, what's wrong with you?
-
-The phantom AP item means either something went wrong with your connection or the check is not yet implemented. Please use a text client or the PopTracker pack (see [Optional Setup](#optional-setup)) to see checks that you can definitely get.
-
-If you picked up a phantom on a check that should be implemented, you can open an issue on this repo letting us know!
-
 ## Known Issues
 
 - Kotake sometimes does not show the price of her shopsanity item in the second dialogue.
